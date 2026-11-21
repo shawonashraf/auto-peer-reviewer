@@ -24,8 +24,7 @@ docker compose up
 ```
 
 > [!NOTE]
-> For subsequent runs, only modify .env if your api key or the endpoint or the model name has changed.
-> Also you only have to run `docker compose up` after the first run. 
+> If running inside WSL, please use `docker.exe` instead of `docker` in the commands stated above.
 
 Open <http://localhost:7860>.
 
