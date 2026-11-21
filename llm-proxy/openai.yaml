@@ -1,0 +1,19 @@
+# Any model name Claude Code asks for is sent to the OpenAI-compatible endpoint as-is.
+# The reviewer sets every Claude Code model slot to MODEL_NAME.
+model_list:
+  - model_name: "*"
+    litellm_params:
+      model: "openai/*"
+      api_base: os.environ/LLM_BASE_URL
+      api_key: os.environ/LLM_API_KEY
+
+litellm_settings:
+  drop_params: true  # drop Anthropic-only parameters the endpoint does not accept
+  # Translate /v1/messages to /chat/completions. The default targets the newer
+  # /responses API, which most OpenAI-compatible servers (vLLM gateways) lack.
+  use_chat_completions_url_for_anthropic_messages: true
+
+general_settings:
+  # No master key: this proxy is not published on the host and is reachable only from the
+  # compose network, and the reviewer (its only client) would have to hold any key anyway.
+  dangerously_permit_weak_or_unset_master_key: true

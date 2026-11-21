@@ -7,7 +7,10 @@ authors = [
     { name = "shawonashraf", email = "7804029+shawonashraf@users.noreply.github.com" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "gradio==6.31.0",
+    "httpx==0.28.1",
+]
 
 [project.scripts]
 web = "web:main"
@@ -15,3 +18,6 @@ web = "web:main"
 [build-system]
 requires = ["uv_build>=0.13.5,<0.14.0"]
 build-backend = "uv_build"
+
+[tool.uv]
+exclude-newer = "2026-11-07T00:00:00Z"

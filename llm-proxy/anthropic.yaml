@@ -1,0 +1,15 @@
+# Any model name Claude Code asks for is sent to the Anthropic-compatible endpoint as-is.
+model_list:
+  - model_name: "*"
+    litellm_params:
+      model: "anthropic/*"
+      api_base: os.environ/LLM_BASE_URL
+      api_key: os.environ/LLM_API_KEY
+
+litellm_settings:
+  drop_params: true
+
+general_settings:
+  # No master key: this proxy is not published on the host and is reachable only from the
+  # compose network, and the reviewer (its only client) would have to hold any key anyway.
+  dangerously_permit_weak_or_unset_master_key: true

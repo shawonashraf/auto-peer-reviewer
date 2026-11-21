@@ -1,0 +1,37 @@
+services:
+  # The only service that holds the LLM API key. Exposes the Anthropic API Claude Code
+  # speaks and forwards to the custom endpoint (OpenAI- or Anthropic-compatible).
+  llm-proxy:
+    build: ./llm-proxy
+    environment:
+      LLM_API_FORMAT: ${LLM_API_FORMAT:-openai}
+      LLM_BASE_URL: ${LLM_BASE_URL}
+      LLM_API_KEY: ${LLM_API_KEY}
+    restart: unless-stopped
+
+  # Claude Code + Open ScholarPeer behind a small job API. Not reachable from the host.
+  reviewer:
+    build: ./reviewer
+    environment:
+      MODEL_NAME: ${MODEL_NAME}
+      MAX_CONCURRENT_JOBS: ${MAX_CONCURRENT_JOBS:-2}
+      REVIEW_TIMEOUT_SECONDS: ${REVIEW_TIMEOUT_SECONDS:-7200}
+    volumes:
+      - jobs:/data/jobs
+    depends_on:
+      - llm-proxy
+    restart: unless-stopped
+
+  # Gradio UI, the only service published on the host.
+  web:
+    build: ./web
+    environment:
+      REVIEWER_URL: http://reviewer:8000
+    ports:
+      - "${WEB_PORT:-7860}:7860"
+    depends_on:
+      - reviewer
+    restart: unless-stopped
+
+volumes:
+  jobs:
