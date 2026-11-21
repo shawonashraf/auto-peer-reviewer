@@ -17,18 +17,22 @@ inside Claude Code, which talks to your own LLM endpoint. Everything runs in Doc
 
 ```bash
 cp .env.example .env   # fill in LLM_API_KEY, LLM_BASE_URL, MODEL_NAME
+# for the first run
 docker compose up -d --build
+# for subsequent runs
+docker compose up
 ```
+
+>[!NOTE]
+> For subsequent runs, only modify .env if your api key or the endpoint or the model name has changed.
+> Also you only have to run `docker compose up` after the first run. 
 
 Open <http://localhost:7860>.
 
-`LLM_API_FORMAT` says what your endpoint speaks:
+>[!TIP]
+> LLM inference endpoints can be Anthropic or OpenAI compatible. We've a proxy for that in this project, which will dynamically route the requests based on their compatibility, so that, you don't have to worry about any issues with claude code.
 
-- `auto` (default): at startup the proxy sends a 1-token request in each format and uses the first that works. Anthropic is tried first, since passing calls through beats translating them. If neither works, the proxy exits and prints both status codes (`docker compose logs llm-proxy`).
-- `openai`: an OpenAI-compatible endpoint, e.g. `https://host/v1`. The proxy translates to `/chat/completions`.
-- `anthropic`: an Anthropic-compatible endpoint. The proxy passes calls through.
 
-The model must support tool calling.
 
 ## How a review runs
 
