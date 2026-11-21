@@ -23,13 +23,13 @@ docker compose up -d --build
 docker compose up
 ```
 
->[!NOTE]
+> [!NOTE]
 > For subsequent runs, only modify .env if your api key or the endpoint or the model name has changed.
 > Also you only have to run `docker compose up` after the first run. 
 
 Open <http://localhost:7860>.
 
->[!TIP]
+> [!TIP]
 > LLM inference endpoints can be Anthropic or OpenAI compatible. We've a proxy for that in this project, which will dynamically route the requests based on their compatibility, so that, you don't have to worry about any issues with claude code.
 
 
@@ -41,7 +41,8 @@ Open <http://localhost:7860>.
 3. Claude Code's JSON event stream is turned into a readable log, which `web` streams (`GET /jobs/<id>/logs`).
 4. When `.brain/review/final_review.md` exists, `web` shows it (`GET /jobs/<id>`).
 
->[!IMPORTANT] All the intermediate artifacts (summary, literature, baselines, Q&A) stay in the `jobs` volume under each job's `.brain/` inside the container.
+> [!IMPORTANT] 
+> All the intermediate artifacts (summary, literature, baselines, Q&A) stay in the `jobs` volume under each job's `.brain/` inside the container.
 
 ## Limits
 
