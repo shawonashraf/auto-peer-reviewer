@@ -4,7 +4,8 @@ services:
   llm-proxy:
     build: ./llm-proxy
     environment:
-      LLM_API_FORMAT: ${LLM_API_FORMAT:-openai}
+      LLM_API_FORMAT: ${LLM_API_FORMAT:-auto}
+      MODEL_NAME: ${MODEL_NAME}  # used by the startup probe
       LLM_BASE_URL: ${LLM_BASE_URL}
       LLM_API_KEY: ${LLM_API_KEY}
     restart: unless-stopped

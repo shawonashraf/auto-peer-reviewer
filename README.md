@@ -24,7 +24,8 @@ Open <http://localhost:7860>.
 
 `LLM_API_FORMAT` says what your endpoint speaks:
 
-- `openai` (default): an OpenAI-compatible endpoint, e.g. `https://host/v1`. The proxy translates to `/chat/completions`.
+- `auto` (default): at startup the proxy sends a 1-token request in each format and uses the first that works. Anthropic is tried first, since passing calls through beats translating them. If neither works, the proxy exits and prints both status codes (`docker compose logs llm-proxy`).
+- `openai`: an OpenAI-compatible endpoint, e.g. `https://host/v1`. The proxy translates to `/chat/completions`.
 - `anthropic`: an Anthropic-compatible endpoint. The proxy passes calls through.
 
 The model must support tool calling.
