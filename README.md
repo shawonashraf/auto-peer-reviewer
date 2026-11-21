@@ -1,6 +1,6 @@
 # auto-peer-reviewer
 
-Upload a paper manuscript (PDF), watch the review run live, and get a detailed peer review in Markdown.
+A sandboxed (containerised) manuscript peer reviewer which uses claude code with a custom LLM endpoint so that you can get an LLM driven peer review of your manuscript without exposing the contents.
 
 The review is done by [Open ScholarPeer](https://github.com/amirkiarafiei/open-scholar-peer) running
 inside Claude Code, which talks to your own LLM endpoint. Everything runs in Docker.
@@ -41,7 +41,7 @@ Open <http://localhost:7860>.
 3. Claude Code's JSON event stream is turned into a readable log, which `web` streams (`GET /jobs/<id>/logs`).
 4. When `.brain/review/final_review.md` exists, `web` shows it (`GET /jobs/<id>`).
 
-All the intermediate artifacts (summary, literature, baselines, Q&A) stay in the `jobs` volume under each job's `.brain/`.
+>[!IMPORTANT] All the intermediate artifacts (summary, literature, baselines, Q&A) stay in the `jobs` volume under each job's `.brain/` inside the container.
 
 ## Limits
 
