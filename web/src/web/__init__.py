@@ -37,6 +37,19 @@ CSS = """
 """
 
 
+FOLLOW_LOG_JS = """() => {
+  const el = document.querySelector('#live-log textarea');
+  if (!el) return;
+  if (!el.dataset.follow) {  // first update: start tracking whether the user scrolled up
+    el.dataset.follow = '1';
+    el.addEventListener('scroll', () => {
+      el.dataset.follow = el.scrollHeight - el.scrollTop - el.clientHeight < 30 ? '1' : '0';
+    });
+  }
+  if (el.dataset.follow === '1') el.scrollTop = el.scrollHeight;
+}"""
+
+
 def review(pdf_path, venue):
     """Start a review job and stream (log, review markdown, review file) to the UI."""
     if not pdf_path:
@@ -77,12 +90,15 @@ with gr.Blocks(title="Automated Peer Reviewer") as demo:
         with gr.Column():
             venue = gr.Textbox(label="Venue (optional)", placeholder="e.g. NeurIPS 2026 — leave empty for generic criteria")
             start = gr.Button("Start review", variant="primary")
-    logs = gr.Textbox(label="Live log", lines=20, max_lines=20, autoscroll=True, interactive=False)
+    logs = gr.Textbox(label="Live log", lines=20, max_lines=20, interactive=False, elem_id="live-log")
     gr.Markdown("## Review")
     result = gr.Markdown()
     download = gr.File(label="Download review (.md)")
 
     start.click(review, inputs=[pdf, venue], outputs=[logs, result, download])
+    # Gradio's autoscroll does not move a read-only textbox, so follow the log in the
+    # browser: jump to the end on every update, unless the user has scrolled up to read.
+    logs.change(None, js=FOLLOW_LOG_JS)
 
 
 def main() -> None:
