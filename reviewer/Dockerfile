@@ -10,6 +10,7 @@ ARG OSP_SOURCES=arxiv,semantic_scholar,openalex,europepmc,zenodo
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       python3 python3-venv git ca-certificates ripgrep jq \
+      poppler-utils `# Claude Code's Read tool renders PDF pages with pdftoppm` \
  && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION} && npm cache clean --force

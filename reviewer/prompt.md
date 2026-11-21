@@ -26,6 +26,9 @@ Unattended-mode rules. These override anything in the command or skill files:
 - PDF conversion: use the `markitdown` MCP tool `convert_to_markdown` with the URI
   `file://{workdir}/.brain/input/{paper_file}`. If that fails, run
   `markitdown .brain/input/{paper_file} -o .brain/input/paper.md` in bash.
+- `paper.md` is the working text for every phase. When it is garbled (missing spaces, broken
+  tables) or a figure matters, look at the original pages with the Read tool on
+  `.brain/input/{paper_file}` and its `pages` parameter (e.g. `"3-4"`). Read only the pages you need.
 - The built-in WebSearch tool is not available here. Where a step wants a web search, use the OSP
   search tools or WebFetch, or fall back as the step describes.
 - If a phase fails, record why in `session.json` and its artifact, then continue. A final review
